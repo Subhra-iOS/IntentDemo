@@ -1,12 +1,15 @@
 package com.example.intentdemo
 
 import android.os.Bundle
+import android.view.View
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity;
 
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
+
+    private val  PHOTO_REQUEST_CODE = 1
 
     private lateinit var placeHolderImgView : ImageView
 
@@ -20,6 +23,11 @@ class MainActivity : AppCompatActivity() {
         placeHolderImgView.setOnClickListener {
 
         }
+
+    }
+
+    fun didTapPhotoDataOnClick(view : View){
+
 
     }
 
