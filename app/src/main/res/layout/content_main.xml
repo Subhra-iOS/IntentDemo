@@ -9,13 +9,13 @@
         tools:showIn="@layout/activity_main"
         tools:context=".MainActivity">
 
-    <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Hello World!"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
 
+    <TextView
+            android:text="First stage of Intent demo. Tap the picture below to take a photo."
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/titleTextView" app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="10dp" app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="10dp"
+            app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="10dp"
+            android:gravity="center"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
