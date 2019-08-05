@@ -21,11 +21,24 @@ class MainActivity : AppCompatActivity() {
         placeHolderImgView = findViewById(R.id.placeholderImgView) as ImageView
 
         placeHolderImgView.setOnClickListener {
-
+            takePictureWithCamera()
         }
 
     }
 
+    /***
+     * invoke camera to take picture
+     * @author : Subhra Roy
+     */
+    private fun takePictureWithCamera(){
+
+        println("Test")
+    }
+
+    /***
+     * did tap on button
+     * @author : Subhra Roy
+     */
     fun didTapPhotoDataOnClick(view : View){
 
 
