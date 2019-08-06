@@ -1,11 +1,14 @@
 package com.example.intentdemo
 
+import android.content.Intent
 import android.os.Bundle
+import android.provider.MediaStore
 import android.view.View
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity;
 
 import kotlinx.android.synthetic.main.activity_main.*
+import java.io.File
 
 class MainActivity : AppCompatActivity() {
 
@@ -32,7 +35,25 @@ class MainActivity : AppCompatActivity() {
      */
     private fun takePictureWithCamera(){
 
-        println("Test")
+        val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+
+        val imgDirectoryPath = File(filesDir, "PhotoFolder")
+        var selectedPhotoPath = File(imgDirectoryPath, "item_image.jpg")
+
+        if(selectedPhotoPath.exists()){
+           val status = selectedPhotoPath.delete()
+
+            when (status){
+                true -> "Deleted"
+                else -> "Error while delete"
+            }
+        }else{
+
+            selectedPhotoPath.parentFile.mkdirs()
+        }
+
+       // selectedPhotoPath =
+
     }
 
     /***
