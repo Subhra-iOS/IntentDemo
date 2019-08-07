@@ -5,7 +5,8 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.view.View
 import android.widget.ImageView
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity
+
 
 import kotlinx.android.synthetic.main.activity_main.*
 import java.io.File
