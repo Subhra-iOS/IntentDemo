@@ -1,15 +1,18 @@
 package com.example.intentdemo
 
+import android.content.ClipData
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.provider.MediaStore
 import android.view.View
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
-
-
+import androidx.core.content.FileProvider
+import android.os.Build
 import kotlinx.android.synthetic.main.activity_main.*
 import java.io.File
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -22,7 +25,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
 
-        placeHolderImgView = findViewById(R.id.placeholderImgView) as ImageView
+        placeHolderImgView = findViewById(R.id.placeholderImgView)
 
         placeHolderImgView.setOnClickListener {
             takePictureWithCamera()
@@ -39,10 +42,10 @@ class MainActivity : AppCompatActivity() {
         val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
 
         val imgDirectoryPath = File(filesDir, "PhotoFolder")
-        var selectedPhotoPath = File(imgDirectoryPath, "item_image.jpg")
+        var newPhotoPath = File(imgDirectoryPath, "item_image.jpg")
 
-        if(selectedPhotoPath.exists()){
-           val status = selectedPhotoPath.delete()
+        if(newPhotoPath.exists()){
+           val status = newPhotoPath.delete()
 
             when (status){
                 true -> "Deleted"
@@ -50,10 +53,23 @@ class MainActivity : AppCompatActivity() {
             }
         }else{
 
-            selectedPhotoPath.parentFile.mkdirs()
+            newPhotoPath.parentFile.mkdirs()
         }
 
-       // selectedPhotoPath =
+        val selectedPhotoPath = FileProvider.getUriForFile(this,BuildConfig.APPLICATION_ID + ".fileprovider",
+            newPhotoPath)
+
+        cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, selectedPhotoPath)
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            cameraIntent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION)
+        } else {
+            val clip = ClipData.newUri(contentResolver, "A photo", selectedPhotoPath)
+            cameraIntent.clipData = clip
+            cameraIntent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION)
+        }
+
+        startActivityForResult(cameraIntent,PHOTO_REQUEST_CODE)
 
     }
 
