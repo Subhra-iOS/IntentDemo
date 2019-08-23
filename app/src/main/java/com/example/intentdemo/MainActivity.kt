@@ -1,8 +1,11 @@
 package com.example.intentdemo
 
+import android.Manifest
 import android.content.ClipData
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import android.view.View
@@ -10,8 +13,11 @@ import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.FileProvider
 import android.os.Build
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import kotlinx.android.synthetic.main.activity_main.*
 import java.io.File
+import java.util.jar.Manifest.*
 
 
 class MainActivity : AppCompatActivity() {
@@ -19,6 +25,9 @@ class MainActivity : AppCompatActivity() {
     private val  PHOTO_REQUEST_CODE = 1
 
     private lateinit var placeHolderImgView : ImageView
+
+    val permissions = arrayOf(android.Manifest.permission.CAMERA, android.Manifest.permission.WRITE_EXTERNAL_STORAGE, android.Manifest.permission.READ_EXTERNAL_STORAGE)
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,6 +40,32 @@ class MainActivity : AppCompatActivity() {
             takePictureWithCamera()
         }
 
+
+        if (hasPermission()){
+
+            requestPermission()
+        }
+    }
+
+    /**
+     * Check whether permissions are allowed or not
+     * @author : Subhra Roy
+     */
+
+    private fun hasPermission() : Boolean{
+
+        return ContextCompat.checkSelfPermission(this,
+            Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED || ContextCompat.checkSelfPermission(this,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED || ContextCompat.checkSelfPermission(this,
+            Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED
+    }
+
+    /**
+     * Request for giving permission
+     * @author : Subhra Roy
+     */
+    private fun requestPermission(){
+        ActivityCompat.requestPermissions(this,permissions,0)
     }
 
     /***
@@ -41,8 +76,8 @@ class MainActivity : AppCompatActivity() {
 
         val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
 
-        val imgDirectoryPath = File(filesDir, "PhotoFolder")
-        var newPhotoPath = File(imgDirectoryPath, "item_image.jpg")
+        val imgDirectoryPath = File(filesDir, "images")
+        val newPhotoPath = File(imgDirectoryPath, "default_image.jpg")
 
         if(newPhotoPath.exists()){
            val status = newPhotoPath.delete()
@@ -84,3 +119,4 @@ class MainActivity : AppCompatActivity() {
 
 
 }
+
