@@ -43,30 +43,11 @@ class MainActivity : AppCompatActivity() {
 
         if (hasPermission()){
 
-            requestPermission()
+            requestPermission(permissions)
         }
     }
 
-    /**
-     * Check whether permissions are allowed or not
-     * @author : Subhra Roy
-     */
 
-    private fun hasPermission() : Boolean{
-
-        return ContextCompat.checkSelfPermission(this,
-            Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED || ContextCompat.checkSelfPermission(this,
-            Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED || ContextCompat.checkSelfPermission(this,
-            Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED
-    }
-
-    /**
-     * Request for giving permission
-     * @author : Subhra Roy
-     */
-    private fun requestPermission(){
-        ActivityCompat.requestPermissions(this,permissions,0)
-    }
 
     /***
      * invoke camera to take picture
@@ -105,7 +86,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         startActivityForResult(cameraIntent,PHOTO_REQUEST_CODE)
-
+        
     }
 
     /***
@@ -120,3 +101,23 @@ class MainActivity : AppCompatActivity() {
 
 }
 
+/**
+ * Check whether permissions are allowed or not
+ * @author : Subhra Roy
+ */
+
+private fun MainActivity.hasPermission() : Boolean{
+
+    return ContextCompat.checkSelfPermission(this,
+        Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED || ContextCompat.checkSelfPermission(this,
+        Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED || ContextCompat.checkSelfPermission(this,
+        Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED
+}
+
+/**
+ * Request for giving permission
+ * @author : Subhra Roy
+ */
+private fun MainActivity.requestPermission(permissionArr : Array<String> ){
+    ActivityCompat.requestPermissions(this,permissionArr,0)
+}
